@@ -13,5 +13,8 @@
             "MediaaB2B\\": "includes/"
         }
     },
-    "require": {}
+    "require-dev": {
+        "php-stubs/wordpress-stubs": "^7.0",
+        "php-stubs/woocommerce-stubs": "^3.8"
+    }
 }

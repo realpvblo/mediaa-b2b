@@ -1,0 +1,41 @@
+<?php return array(
+    'root' => array(
+        'name' => 'mediaa/mediaa-b2b',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '0b5159f490d6059c0378ba061a7591d1d55da73b',
+        'type' => 'wordpress-plugin',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'dev' => true,
+    ),
+    'versions' => array(
+        'mediaa/mediaa-b2b' => array(
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '0b5159f490d6059c0378ba061a7591d1d55da73b',
+            'type' => 'wordpress-plugin',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'php-stubs/woocommerce-stubs' => array(
+            'pretty_version' => 'v3.8.0',
+            'version' => '3.8.0.0',
+            'reference' => '74583d44d4510c431dd548190bfdbd7592aab57e',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../php-stubs/woocommerce-stubs',
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
+        'php-stubs/wordpress-stubs' => array(
+            'pretty_version' => 'v7.0.0',
+            'version' => '7.0.0.0',
+            'reference' => 'd74b963ed4f47303859bf73c741c80f554c83dc6',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../php-stubs/wordpress-stubs',
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
+    ),
+);

@@ -6,6 +6,10 @@ class Plugin
 {
     public function boot(): void
     {
-        // Plugin bootstrap.
+        // Tutaj w przyszłości uruchomimy wszystkie moduły.
+
+        // (new Roles())->register();
+        // (new Pricing())->register();
+        // (new Registration())->register();
     }
 }
