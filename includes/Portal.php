@@ -7,17 +7,27 @@ class Portal
     public function register(): void
     {
         \add_shortcode(
-            'mediaaa_b2b_portal',
+            'mediaa_b2b_portal',
             [$this, 'render']
         );
     }
 
     public function render(): string
     {
-        ob_start();
+        if (! \is_user_logged_in()) {
+            return View::render('guest');
+        }
 
-        include dirname(__DIR__) . '/templates/portal.php';
+        $user = \wp_get_current_user();
 
-        return ob_get_clean();
+        if (Roles::isPending($user)) {
+            return View::render('pending');
+        }
+
+        if (Roles::isB2B($user)) {
+            return View::render('dashboard');
+        }
+
+        return View::render('not-authorized');
     }
 }
