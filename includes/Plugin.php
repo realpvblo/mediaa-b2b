@@ -6,10 +6,9 @@ class Plugin
 {
     public function boot(): void
     {
-        // Tutaj w przyszłości uruchomimy wszystkie moduły.
+        // Register plugin modules.
+        (new Registration())->register();
 
-        // (new Roles())->register();
-        // (new Pricing())->register();
-        // (new Registration())->register();
+        (new Portal())->register();
     }
 }

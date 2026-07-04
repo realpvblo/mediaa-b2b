@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Plugin Name: Mediaaa B2B
+ * Plugin Name: Mediaa B2B
  * Description: WooCommerce B2B Plugin
  * Version: 0.1.0
  * Author: Paweł Waszkiewicz
- * Text Domain: mediaaa-b2b
+ * Text Domain: mediaa-b2b
  */
 
 if (!defined('ABSPATH')) {
