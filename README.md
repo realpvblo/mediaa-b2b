@@ -1,4 +1,4 @@
-# Mediaaa B2B
+# Mediaa-B2B
 
 Profesjonalna wtyczka WooCommerce umożliwiająca obsługę klientów B2B.
 

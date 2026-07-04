@@ -1,0 +1,17 @@
+{
+    "name": "mediaa/mediaa-b2b",
+    "description": "WooCommerce B2B plugin",
+    "type": "wordpress-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Paweł Waszkiewicz"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "MediaaB2B\\": "includes/"
+        }
+    },
+    "require": {}
+}
