@@ -12,6 +12,13 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+/**
+ * Plugin constants.
+ */
+define('MEDIAA_B2B_VERSION', '0.1.0');
+define('MEDIAA_B2B_PATH', plugin_dir_path(__FILE__));
+define('MEDIAA_B2B_URL', plugin_dir_url(__FILE__));
+
 require_once __DIR__ . '/vendor/autoload.php';
 
 use MediaaB2B\Plugin;

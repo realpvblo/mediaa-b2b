@@ -1,23 +1,5 @@
-<?php
+<div class="mediaaa-b2b-portal">
+    <h1>Mediaaa B2B Portal</h1>
 
-namespace MediaaB2B;
-
-class Portal
-{
-    public function register(): void
-    {
-        \add_shortcode(
-            'mediaaa_b2b_portal',
-            [$this, 'render']
-        );
-    }
-
-    public function render(): string
-    {
-        ob_start();
-
-        include dirname(__DIR__) . '/templates/portal.php';
-
-        return ob_get_clean();
-    }
-}
+    <p>Welcome!</p>
+</div>

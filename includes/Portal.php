@@ -14,20 +14,17 @@ class Portal
 
     public function render(): string
     {
-        if (! \is_user_logged_in()) {
-            return View::render('guest');
-        }
+        return match (PortalState::current()) {
 
-        $user = \wp_get_current_user();
+            PortalState::GUEST => View::render('guest'),
 
-        if (Roles::isPending($user)) {
-            return View::render('pending');
-        }
+            PortalState::PENDING => View::render('pending'),
 
-        if (Roles::isB2B($user)) {
-            return View::render('dashboard');
-        }
+            PortalState::CUSTOMER => View::render('dashboard'),
 
-        return View::render('not-authorized');
+            PortalState::NOT_AUTHORIZED => View::render('not-authorized'),
+
+            default => View::render('not-authorized'),
+        };
     }
 }

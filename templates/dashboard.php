@@ -1,9 +1,22 @@
-<div class="mediaaa-b2b-portal">
+<div class="mediaa-b2b-portal">
 
-    <h2>Panel Partnera B2B</h2>
+    <h2>
+
+        Witaj
+        <?php echo esc_html(Auth::user()->display_name); ?>
+
+    </h2>
 
     <p>
-        Witaj! Tutaj wkrótce pojawi się panel klienta.
+
+        Jesteś zalogowany jako Partner B2B.
+
     </p>
+
+    <a href="<?php echo esc_url(wp_logout_url(home_url('/b2b'))); ?>">
+
+        Wyloguj
+
+    </a>
 
 </div>
