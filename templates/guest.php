@@ -1,5 +1,9 @@
 <div class="mediaa-b2b-portal">
 
+    <?php if (function_exists('wc_print_notices')) : ?>
+        <?php wc_print_notices(); ?>
+    <?php endif; ?>
+
     <h2>Partner B2B</h2>
 
     <p>

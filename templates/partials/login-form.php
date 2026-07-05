@@ -1,16 +1,3 @@
-<?php if (
-    isset($_GET['login']) &&
-    $_GET['login'] === 'failed'
-) : ?>
-
-    <div class="mediaa-alert mediaa-alert-error">
-
-        Nieprawidłowy adres e-mail lub hasło.
-
-    </div>
-
-<?php endif; ?>
-
 <form method="post" class="mediaa-b2b-form">
 
     <div class="mediaa-form-row">

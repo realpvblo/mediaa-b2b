@@ -21,6 +21,7 @@ class AuthController
         }
 
         if ($this->isRegisterRequest()) {
+
             $this->registerUser();
 
             return;
@@ -34,10 +35,12 @@ class AuthController
     private function login(): void
     {
 
+        $nonce = sanitize_text_field(
+            \wp_unslash($_POST['mediaa_b2b_nonce'])
+        );
+
         if (! \wp_verify_nonce(
-            sanitize_text_field(
-                \wp_unslash($_POST['mediaa_b2b_nonce'])
-            ),
+            $nonce,
             'mediaa_b2b_login'
         )) {
             return;
@@ -56,12 +59,47 @@ class AuthController
 
         if (\is_wp_error($user)) {
 
+            if (\function_exists('wc_add_notice')) {
+                \wc_add_notice(
+                    __('Nieprawidłowy adres e-mail lub hasło.', 'mediaa-b2b'),
+                    'error'
+                );
+            }
+
             \wp_safe_redirect(
-                \add_query_arg(
-                    'login',
-                    'failed',
-                    \home_url('/b2b')
-                )
+                \home_url('/b2b')
+            );
+
+            exit;
+        }
+
+        if (Roles::isPending($user)) {
+
+            \wc_add_notice(
+                __('Twoje konto oczekuje na akceptację administratora.', 'mediaa-b2b'),
+                'notice'
+            );
+
+            \wp_logout();
+
+            \wp_safe_redirect(
+                \home_url('/b2b')
+            );
+
+            exit;
+        }
+
+        if (! Roles::canAccessPortal($user)) {
+
+            \wc_add_notice(
+                __('Nie masz dostępu do portalu B2B.', 'mediaa-b2b'),
+                'error'
+            );
+
+            \wp_logout();
+
+            \wp_safe_redirect(
+                \home_url('/b2b')
             );
 
             exit;
@@ -74,6 +112,7 @@ class AuthController
 
     private function registerUser(): void
     {
+
         if (! $this->validateRegistration()) {
             return;
         }
@@ -93,6 +132,7 @@ class AuthController
 
     private function validateRegistration(): bool
     {
+
         if (! isset($_POST['mediaa_b2b_register_nonce'])) {
             return false;
         }
@@ -177,6 +217,7 @@ class AuthController
 
     private function createUser(array $data): int|false
     {
+
         $userId = \wp_insert_user([
             'user_login' => sanitize_user(
                 $data['email'],
@@ -190,6 +231,14 @@ class AuthController
         ]);
 
         if (\is_wp_error($userId)) {
+
+            if (\function_exists('wc_add_notice')) {
+                \wc_add_notice(
+                    $userId->get_error_message(),
+                    'error'
+                );
+            }
+
             return false;
         }
 
@@ -234,6 +283,13 @@ class AuthController
 
     private function redirectAfterRegistration(): void
     {
+        if (\function_exists('wc_add_notice')) {
+            \wc_add_notice(
+                __('Konto zostało utworzone i oczekuje na akceptację administratora.', 'mediaa-b2b'),
+                'success'
+            );
+        }
+
         \wp_safe_redirect(
 
             \add_query_arg(

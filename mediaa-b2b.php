@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Mediaa B2B
  * Description: WooCommerce B2B Plugin
- * Version: 0.1.0
+ * Version: 0.2.0
  * Author: Paweł Waszkiewicz
  * Text Domain: mediaa-b2b
  */

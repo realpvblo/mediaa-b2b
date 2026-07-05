@@ -4,8 +4,8 @@ namespace MediaaB2B;
 
 class Roles
 {
-    public const PENDING = 'b2b_pending';
-    public const CUSTOMER = 'b2b_customer';
+    public const ROLE_B2B_PENDING = 'b2b_pending';
+    public const ROLE_B2B_CUSTOMER = 'b2b_customer';
 
     /**
      * Create all B2B roles.
@@ -13,7 +13,7 @@ class Roles
     public static function create(): void
     {
         \add_role(
-            self::PENDING,
+            self::ROLE_B2B_PENDING,
             'B2B Pending',
             [
                 'read' => true,
@@ -21,7 +21,7 @@ class Roles
         );
 
         \add_role(
-            self::CUSTOMER,
+            self::ROLE_B2B_CUSTOMER,
             'B2B Customer',
             [
                 'read' => true,
@@ -34,8 +34,8 @@ class Roles
      */
     public static function remove(): void
     {
-        \remove_role(self::PENDING);
-        \remove_role(self::CUSTOMER);
+        \remove_role(self::ROLE_B2B_PENDING);
+        \remove_role(self::ROLE_B2B_CUSTOMER);
     }
 
     /**
@@ -43,7 +43,7 @@ class Roles
      */
     public static function isB2B(\WP_User $user): bool
     {
-        return in_array(self::CUSTOMER, $user->roles, true);
+        return in_array(self::ROLE_B2B_CUSTOMER, $user->roles, true);
     }
 
     /**
@@ -51,6 +51,6 @@ class Roles
      */
     public static function isPending(\WP_User $user): bool
     {
-        return in_array(self::PENDING, $user->roles, true);
+        return in_array(self::ROLE_B2B_PENDING, $user->roles, true);
     }
 }
