@@ -1,22 +1,68 @@
-<div class="mediaa-b2b-portal">
+<?php
+
+use MediaaB2B\DashboardController;
+
+$controller = new DashboardController();
+
+$user = $controller->getCurrentUser();
+
+?>
+
+<div class="mediaa-b2b-dashboard">
 
     <h2>
 
-        Witaj
-        <?php echo esc_html(Auth::user()->display_name); ?>
+        Witaj,
+        <?php echo esc_html($user->display_name); ?>
 
     </h2>
 
     <p>
 
-        Jesteś zalogowany jako Partner B2B.
+        Witaj w panelu Partnera B2B.
 
     </p>
 
-    <a href="<?php echo esc_url(wp_logout_url(home_url('/b2b'))); ?>">
+    <div class="mediaa-dashboard-grid">
 
-        Wyloguj
+        <a href="#" class="mediaa-dashboard-card">
 
-    </a>
+            <span>📦</span>
+
+            <strong>Zamówienia</strong>
+
+        </a>
+
+        <a href="#" class="mediaa-dashboard-card">
+
+            <span>👤</span>
+
+            <strong>Dane firmy</strong>
+
+        </a>
+
+        <a href="#" class="mediaa-dashboard-card">
+
+            <span>📄</span>
+
+            <strong>Materiały</strong>
+
+        </a>
+
+        <a
+            href="<?php echo esc_url(
+                        \wp_logout_url(
+                            \home_url('/b2b')
+                        )
+                    ); ?>"
+            class="mediaa-dashboard-card">
+
+            <span>🚪</span>
+
+            <strong>Wyloguj</strong>
+
+        </a>
+
+    </div>
 
 </div>

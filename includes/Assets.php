@@ -18,6 +18,13 @@ class Assets
             return;
         }
 
+        \wp_enqueue_style(
+            'mediaa-b2b-portal',
+            MEDIAA_B2B_URL . 'assets/css/portal.css',
+            [],
+            MEDIAA_B2B_VERSION
+        );
+
         \wp_enqueue_script(
             'mediaa-b2b-portal',
             MEDIAA_B2B_URL . 'assets/js/portal.js',

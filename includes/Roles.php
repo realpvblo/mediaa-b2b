@@ -39,9 +39,9 @@ class Roles
     }
 
     /**
-     * Check if user is B2B.
+     * Check if user is a B2B customer.
      */
-    public static function isB2B(\WP_User $user): bool
+    public static function isCustomer(\WP_User $user): bool
     {
         return in_array(self::ROLE_B2B_CUSTOMER, $user->roles, true);
     }
@@ -52,5 +52,25 @@ class Roles
     public static function isPending(\WP_User $user): bool
     {
         return in_array(self::ROLE_B2B_PENDING, $user->roles, true);
+    }
+
+    /**
+     * Check if user is Admin.
+     */
+
+    public static function isAdministrator(\WP_User $user): bool
+    {
+        return \in_array(
+            'administrator',
+            $user->roles,
+            true
+        );
+    }
+
+    public static function canAccessPortal(\WP_User $user): bool
+    {
+        return
+            self::isAdministrator($user)
+            || self::isCustomer($user);
     }
 }

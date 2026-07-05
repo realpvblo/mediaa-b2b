@@ -59,6 +59,14 @@ class AuthController
 
         if (\is_wp_error($user)) {
 
+            \error_log(
+
+                'MediaaB2B login error: ' .
+
+                    $user->get_error_message()
+
+            );
+
             if (\function_exists('wc_add_notice')) {
                 \wc_add_notice(
                     __('Nieprawidłowy adres e-mail lub hasło.', 'mediaa-b2b'),
@@ -72,6 +80,14 @@ class AuthController
 
             exit;
         }
+
+        \error_log(
+
+            'MediaaB2B logged user: ' .
+
+                $user->user_login
+
+        );
 
         if (Roles::isPending($user)) {
 
@@ -305,7 +321,13 @@ class AuthController
 
     private function logout(): void
     {
-        //
+        \wp_logout();
+
+        \wp_safe_redirect(
+            \home_url('/b2b')
+        );
+
+        exit;
     }
 
     private function isLoginRequest(): bool
