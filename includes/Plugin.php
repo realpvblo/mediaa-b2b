@@ -14,5 +14,9 @@ class Plugin
         (new Portal())->register();
 
         (new AuthController())->register();
+
+        (new ProductManager())->register();
+
+        (new AdminController())->register();
     }
 }
