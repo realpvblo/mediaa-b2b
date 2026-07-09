@@ -45,4 +45,14 @@
         Zaloguj się
     </button>
 
+    <p class="mediaa-form-footer">
+
+        <a href="<?php echo esc_url(wc_lostpassword_url()); ?>">
+
+            Nie pamiętasz hasła?
+
+        </a>
+
+    </p>
+
 </form>

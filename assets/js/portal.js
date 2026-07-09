@@ -22,3 +22,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 });
+
+document
+    .querySelectorAll('.mediaa-b2b-form input')
+    .forEach((input) => {
+
+        input.addEventListener('invalid', () => {
+
+            input.classList.add('is-invalid');
+
+        });
+
+        input.addEventListener('input', () => {
+
+            if (input.checkValidity()) {
+
+                input.classList.remove('is-invalid');
+
+            }
+
+        });
+
+    });

@@ -1,7 +1,7 @@
 <form method="post" class="mediaa-b2b-form">
 
     <div class="mediaa-form-row">
-        <label for="mediaa_register_first_name">Imię</label>
+        <label for="mediaa_register_first_name">Imię <span class="required">*</span></label>
 
         <input
             id="mediaa_register_first_name"
@@ -11,7 +11,7 @@
     </div>
 
     <div class="mediaa-form-row">
-        <label for="mediaa_register_last_name">Nazwisko</label>
+        <label for="mediaa_register_last_name">Nazwisko <span class="required">*</span></label>
 
         <input
             id="mediaa_register_last_name"
@@ -21,7 +21,7 @@
     </div>
 
     <div class="mediaa-form-row">
-        <label for="mediaa_register_company">Firma</label>
+        <label for="mediaa_register_company">Nazwa firmy <span class="required">*</span></label>
 
         <input
             id="mediaa_register_company"
@@ -31,7 +31,7 @@
     </div>
 
     <div class="mediaa-form-row">
-        <label for="mediaa_register_nip">NIP</label>
+        <label for="mediaa_register_nip">NIP <span class="required">*</span></label>
 
         <input
             id="mediaa_register_nip"
@@ -41,7 +41,7 @@
     </div>
 
     <div class="mediaa-form-row">
-        <label for="mediaa_register_phone">Telefon</label>
+        <label for="mediaa_register_phone">Telefon <span class="required">*</span></label>
 
         <input
             id="mediaa_register_phone"
@@ -51,7 +51,7 @@
     </div>
 
     <div class="mediaa-form-row">
-        <label for="mediaa_register_email">Adres e-mail</label>
+        <label for="mediaa_register_email">Adres e-mail <span class="required">*</span></label>
 
         <input
             id="mediaa_register_email"
@@ -61,7 +61,8 @@
     </div>
 
     <div class="mediaa-form-row">
-        <label for="mediaa_register_password">Hasło</label>
+        <label for="mediaa_register_password">Hasło <span class="required">*</span></label>
+
 
         <input
             id="mediaa_register_password"

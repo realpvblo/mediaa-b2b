@@ -17,6 +17,9 @@ class Registration
      */
     public function renderCompanyFields(): void
     {
+        if (! \is_page('b2b')) {
+            return;
+        }
 ?>
         <p class="form-row form-row-wide">
             <label for="billing_company">

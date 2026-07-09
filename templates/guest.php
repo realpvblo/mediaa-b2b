@@ -1,4 +1,4 @@
-<div class="mediaa-b2b-portal">
+<div class="mediaa-b2b-portal mediaa-b2b-b2b">
 
     <?php if (function_exists('wc_print_notices')) : ?>
         <?php wc_print_notices(); ?>
