@@ -52,6 +52,17 @@ class AdminController
         );
     }
 
+    private function getActiveUsers(): array
+    {
+        return \get_users(
+            [
+                'role'    => Roles::ROLE_B2B_CUSTOMER,
+                'orderby' => 'registered',
+                'order'   => 'ASC',
+            ]
+        );
+    }
+
     public function approveUser(): void
     {
         if (! current_user_can('manage_options')) {
@@ -107,9 +118,154 @@ class AdminController
         exit;
     }
 
+    private function renderUsersTable(
+        array $users,
+        bool $showActions
+    ): void
+    {
+        if (empty($users)) {
+
+            echo '<p>Brak użytkowników.</p>';
+
+            return;
+        }
+
+        ?>
+
+        <table class="widefat striped">
+
+            <thead>
+
+                <tr>
+
+                    <th>Firma</th>
+
+                    <th>Osoba kontaktowa</th>
+
+                    <th>E-mail</th>
+
+                    <th>Telefon</th>
+
+                    <th>NIP</th>
+
+                    <th>Data rejestracji</th>
+
+                    <?php if ($showActions) : ?>
+
+                        <th>Akcja</th>
+
+                    <?php endif; ?>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            <?php foreach ($users as $user) :
+
+                $company = \get_user_meta(
+                    $user->ID,
+                    'billing_company',
+                    true
+                );
+
+                $firstName = \get_user_meta(
+                    $user->ID,
+                    'billing_first_name',
+                    true
+                );
+
+                $lastName = \get_user_meta(
+                    $user->ID,
+                    'billing_last_name',
+                    true
+                );
+
+                $phone = \get_user_meta(
+                    $user->ID,
+                    'billing_phone',
+                    true
+                );
+
+                $nip = \get_user_meta(
+                    $user->ID,
+                    'billing_nip',
+                    true
+                );
+
+                $contactPerson = \trim(
+                    $firstName . ' ' . $lastName
+                );
+
+            ?>
+
+                <tr>
+
+                    <td><?php echo esc_html($company); ?></td>
+
+                    <td><?php echo esc_html($contactPerson); ?></td>
+
+                    <td><?php echo esc_html($user->user_email); ?></td>
+
+                    <td><?php echo esc_html($phone); ?></td>
+
+                    <td><?php echo esc_html($nip); ?></td>
+
+                    <td><?php echo esc_html($user->user_registered); ?></td>
+
+                    <?php if ($showActions) : ?>
+
+                        <td>
+
+                            <form
+                                method="post"
+                                action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+
+                                <input
+                                    type="hidden"
+                                    name="action"
+                                    value="mediaa_b2b_approve_user">
+
+                                <input
+                                    type="hidden"
+                                    name="user_id"
+                                    value="<?php echo esc_attr($user->ID); ?>">
+
+                                <?php
+                                wp_nonce_field(
+                                    'mediaa_b2b_approve_user',
+                                    'mediaa_b2b_nonce'
+                                );
+                                ?>
+
+                                <button class="button button-primary">
+
+                                    Akceptuj
+
+                                </button>
+
+                            </form>
+
+                        </td>
+
+                    <?php endif; ?>
+
+                </tr>
+
+            <?php endforeach; ?>
+
+            </tbody>
+
+        </table>
+
+        <?php
+    }
+
     public function renderPendingUsersPage(): void
     {
-        $users = $this->getPendingUsers();
+        $pendingUsers = $this->getPendingUsers();
+        $activeUsers = $this->getActiveUsers();
 
         $status = \sanitize_text_field(
             \wp_unslash($_GET['status'] ?? '')
@@ -135,158 +291,17 @@ class AdminController
 
             <?php endif; ?>
 
-            <h2>Oczekujące konta</h2>
+            <h2>
+                Oczekujące konta (<?php echo count($pendingUsers); ?>)
+            </h2>
 
-            <?php if (empty($users)) : ?>
+            <?php $this->renderUsersTable($pendingUsers, true); ?>
 
-                <p>Brak oczekujących kont.</p>
+            <h2 style="margin-top:40px;">
+                Aktywni klienci B2B (<?php echo count($activeUsers); ?>)
+            </h2>
 
-            <?php else : ?>
-
-                <table class="widefat striped">
-
-                    <thead>
-
-                        <tr>
-
-                            <th>Firma</th>
-
-                            <th>Osoba kontaktowa</th>
-
-                            <th>E-mail</th>
-
-                            <th>Telefon</th>
-
-                            <th>NIP</th>
-
-                            <th>Data rejestracji</th>
-
-                            <th>Akcja</th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        <?php foreach ($users as $user) :
-
-                            $company = \get_user_meta(
-                                $user->ID,
-                                'billing_company',
-                                true
-                            );
-
-                            $firstName = \get_user_meta(
-                                $user->ID,
-                                'billing_first_name',
-                                true
-                            );
-
-                            $lastName = \get_user_meta(
-                                $user->ID,
-                                'billing_last_name',
-                                true
-                            );
-
-                            $phone = \get_user_meta(
-                                $user->ID,
-                                'billing_phone',
-                                true
-                            );
-
-                            $nip = \get_user_meta(
-                                $user->ID,
-                                'billing_nip',
-                                true
-                            );
-
-                            $contactPerson = \trim(
-                                $firstName . ' ' . $lastName
-                            );
-
-                        ?>
-
-                            <tr>
-
-                                <td>
-
-                                    <?php echo \esc_html($company); ?>
-
-                                </td>
-
-                                <td>
-
-                                    <?php echo \esc_html($contactPerson); ?>
-
-                                </td>
-
-                                <td>
-
-                                    <?php echo \esc_html($user->user_email); ?>
-
-                                </td>
-
-                                <td>
-
-                                    <?php echo \esc_html($phone); ?>
-
-                                </td>
-
-                                <td>
-
-                                    <?php echo \esc_html($nip); ?>
-
-                                </td>
-
-                                <td>
-
-                                    <?php echo \esc_html($user->user_registered); ?>
-
-                                </td>
-
-                                <td>
-
-                                    <form
-                                        method="post"
-                                        action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-
-                                        <input
-                                            type="hidden"
-                                            name="action"
-                                            value="mediaa_b2b_approve_user">
-
-                                        <input
-                                            type="hidden"
-                                            name="user_id"
-                                            value="<?php echo esc_attr($user->ID); ?>">
-                                        <?php
-                                        wp_nonce_field(
-                                            'mediaa_b2b_approve_user',
-                                            'mediaa_b2b_nonce'
-                                        );
-                                        ?>
-
-                                        <button
-                                            class="button button-primary">
-
-                                            Akceptuj
-
-                                        </button>
-
-                                    </form>
-
-                                </td>
-
-                            </tr>
-
-                        <?php endforeach; ?>
-
-                    </tbody>
-
-                </table>
-
-            <?php endif; ?>
+            <?php $this->renderUsersTable($activeUsers, false); ?>
 
         </div>
 
