@@ -59,6 +59,16 @@ $tab = sanitize_key(
 
         </a>
 
+        <a href="<?php echo esc_url(
+                        home_url('/b2b?tab=password')
+                    ); ?>" class="mediaa-dashboard-card <?php echo $tab === 'password' ? 'is-active' : ''; ?>">
+
+            <span>🔒</span>
+
+            <strong>Hasło</strong>
+
+        </a>
+
         <a
             href="<?php echo esc_url(
                         \wp_logout_url(
@@ -104,6 +114,11 @@ $tab = sanitize_key(
                         <small>Pobierz katalogi, cenniki i materiały marketingowe.</small>
                     </div>
 
+                    <div>
+                        <strong>🔒 Hasło</strong><br>
+                        <small>Zmień hasło do swojego konta B2B.</small>
+                    </div>
+
                 </div>
 
             </div>
@@ -119,6 +134,10 @@ $tab = sanitize_key(
 
                 case 'downloads':
                     require MEDIAA_B2B_PATH . 'templates/downloads.php';
+                    break;
+
+                case 'password':
+                    require MEDIAA_B2B_PATH . 'templates/password.php';
                     break;
 
                 case 'orders':
