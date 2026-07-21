@@ -49,3 +49,501 @@
     border-color: #0073aa;
 
 }
+
+.mediaa-dashboard-card.is-active {
+
+    border-color: #2271b1;
+
+    background: #eef7ff;
+
+}
+
+.mediaa-dashboard-card.is-active strong {
+
+    color: #2271b1;
+
+}
+
+/* -------------------------------- */
+/* ORDERS */
+/* -------------------------------- */
+
+.mediaa-dashboard-content {
+
+    margin-top: 30px;
+
+}
+
+.mediaa-orders-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    background: #fff;
+
+    border-radius: 8px;
+
+    overflow: hidden;
+
+}
+
+.mediaa-orders-table th {
+
+    background: #f6f7f7;
+
+    text-align: left;
+
+    padding: 14px;
+
+    font-weight: 600;
+
+}
+
+.mediaa-orders-table td {
+
+    padding: 14px;
+
+    border-top: 1px solid #eee;
+
+}
+
+.mediaa-orders-table tr:hover {
+
+    background: #fafafa;
+
+}
+
+/* -------------------------------- */
+/* ORDER DETAILS */
+/* -------------------------------- */
+
+.mediaa-orders-list {
+
+    display: grid;
+
+    gap: 20px;
+
+}
+
+.mediaa-order-card {
+
+    background: #fff;
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    padding: 20px;
+
+}
+
+.mediaa-order-card__header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 16px;
+
+}
+
+.mediaa-order-status {
+
+    background: #eef7ff;
+
+    color: #2271b1;
+
+    padding: 6px 12px;
+
+    border-radius: 999px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+.mediaa-order-card__footer {
+
+    margin-top: 20px;
+
+}
+
+.mediaa-order-details {
+
+    background: #fff;
+
+    padding: 30px;
+
+    border-radius: 10px;
+
+    border: 1px solid #ddd;
+
+}
+
+.mediaa-order-details ul {
+
+    padding-left: 20px;
+
+}
+
+.mediaa-order-details hr {
+
+    margin: 20px 0;
+
+}
+
+/* -------------------------------- */
+/* DASHBOARD WELCOME */
+/* -------------------------------- */
+
+.mediaa-dashboard-welcome {
+
+    background: #fff;
+
+    border: 1px solid #ddd;
+
+    border-radius: 12px;
+
+    padding: 30px;
+
+}
+
+.mediaa-dashboard-welcome h3 {
+
+    margin-top: 0;
+
+    margin-bottom: 10px;
+
+}
+
+.mediaa-dashboard-welcome>p {
+
+    margin-bottom: 30px;
+
+    color: #666;
+
+}
+
+.mediaa-dashboard-welcome-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
+    gap: 20px;
+
+}
+
+.mediaa-dashboard-welcome-grid>div {
+
+    background: #f8f9fb;
+
+    border: 1px solid #ececec;
+
+    border-radius: 10px;
+
+    padding: 20px;
+
+}
+
+.mediaa-dashboard-welcome-grid strong {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #2271b1;
+
+}
+
+/* -------------------------------- */
+/* COMPANY */
+/* -------------------------------- */
+
+.mediaa-company-card {
+
+    background: #fff;
+
+    border: 1px solid #ddd;
+
+    border-radius: 12px;
+
+    padding: 30px;
+
+}
+
+.mediaa-company-card h2 {
+
+    margin-top: 0;
+
+    margin-bottom: 25px;
+
+}
+
+.mediaa-company-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+
+    gap: 20px;
+
+}
+
+.mediaa-company-item {
+
+    background: #f8f9fb;
+
+    border: 1px solid #ececec;
+
+    border-radius: 10px;
+
+    padding: 18px;
+
+}
+
+.mediaa-company-item span {
+
+    display: block;
+
+    color: #777;
+
+    font-size: 13px;
+
+    margin-bottom: 8px;
+
+}
+
+.mediaa-company-item strong {
+
+    display: block;
+
+    font-size: 17px;
+
+    color: #1d2327;
+
+    word-break: break-word;
+
+}
+
+.mediaa-company-actions {
+
+    margin-top: 30px;
+
+}
+
+.mediaa-company-actions .mediaa-button {
+
+    cursor: not-allowed;
+
+    opacity: .7;
+
+}
+
+/* -------------------------------- */
+/* COMPANY */
+/* -------------------------------- */
+
+.mediaa-company-card {
+
+    background: #fff;
+
+    border: 1px solid #ddd;
+
+    border-radius: 12px;
+
+    padding: 30px;
+
+}
+
+.mediaa-company-card h2 {
+
+    margin-top: 0;
+
+    margin-bottom: 25px;
+
+}
+
+.mediaa-company-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+
+    gap: 20px;
+
+}
+
+.mediaa-company-item {
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+.mediaa-company-item span {
+
+    display: block;
+
+    font-size: 13px;
+
+    color: #777;
+
+    margin-bottom: 8px;
+
+}
+
+.mediaa-company-item strong {
+
+    display: block;
+
+    background: #f8f9fb;
+
+    border: 1px solid #ececec;
+
+    border-radius: 8px;
+
+    padding: 14px 16px;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    color: #1d2327;
+
+    word-break: break-word;
+
+}
+
+.mediaa-company-item input {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    background: #fff;
+
+    border: 1px solid #ccd0d4;
+
+    border-radius: 8px;
+
+    padding: 12px 14px;
+
+    font-size: 15px;
+
+    transition: .2s;
+
+}
+
+.mediaa-company-item input:focus {
+
+    outline: none;
+
+    border-color: #2271b1;
+
+    box-shadow: 0 0 0 3px rgba(34, 113, 177, .15);
+
+}
+
+.mediaa-company-item input:disabled {
+
+    background: #f6f7f7;
+
+    color: #666;
+
+    cursor: not-allowed;
+
+}
+
+.mediaa-company-actions {
+
+    display: flex;
+
+    gap: 15px;
+
+    margin-top: 30px;
+
+}
+
+.mediaa-company-actions .mediaa-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 170px;
+
+    text-decoration: none;
+
+}
+
+.mediaa-company-item input:disabled {
+
+    background: #f6f7f7;
+
+    border-color: #dcdcde;
+
+    color: #50575e;
+
+    opacity: 1;
+
+    cursor: not-allowed;
+
+}
+
+.mediaa-company-help {
+
+    margin-top: 8px;
+
+    font-size: 13px;
+
+    color: #777;
+
+    line-height: 1.5;
+
+}
+
+.mediaa-company-actions .mediaa-button {
+
+    cursor: pointer;
+
+}
+
+/* -------------------------------- */
+/* DOWNLOADS */
+/* -------------------------------- */
+
+.mediaa-back-link {
+
+    margin: 0 0 20px;
+
+}
+
+.mediaa-back-link a {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    text-decoration: none;
+
+    color: #2271b1;
+
+    font-weight: 600;
+
+}
+
+.mediaa-back-link a:hover {
+
+    text-decoration: underline;
+
+}

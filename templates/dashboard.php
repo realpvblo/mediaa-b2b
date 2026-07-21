@@ -6,6 +6,10 @@ $controller = new DashboardController();
 
 $user = $controller->getCurrentUser();
 
+$tab = sanitize_key(
+    $_GET['tab'] ?? ''
+);
+
 ?>
 
 <div class="mediaa-b2b-dashboard">
@@ -25,7 +29,9 @@ $user = $controller->getCurrentUser();
 
     <div class="mediaa-dashboard-grid">
 
-        <a href="#" class="mediaa-dashboard-card">
+        <a href="<?php echo esc_url(
+                        home_url('/b2b?tab=orders')
+                    ); ?>" class="mediaa-dashboard-card <?php echo $tab === 'orders' ? 'is-active' : ''; ?>">
 
             <span>📦</span>
 
@@ -33,7 +39,9 @@ $user = $controller->getCurrentUser();
 
         </a>
 
-        <a href="#" class="mediaa-dashboard-card">
+        <a href="<?php echo esc_url(
+                        home_url('/b2b?tab=company')
+                    ); ?>" class="mediaa-dashboard-card <?php echo $tab === 'company' ? 'is-active' : ''; ?>">
 
             <span>👤</span>
 
@@ -41,7 +49,9 @@ $user = $controller->getCurrentUser();
 
         </a>
 
-        <a href="#" class="mediaa-dashboard-card">
+        <a href="<?php echo esc_url(
+                        home_url('/b2b?tab=downloads')
+                    ); ?>" class="mediaa-dashboard-card <?php echo $tab === 'downloads' ? 'is-active' : ''; ?>">
 
             <span>📄</span>
 
@@ -62,6 +72,62 @@ $user = $controller->getCurrentUser();
             <strong>Wyloguj</strong>
 
         </a>
+    </div>
+
+    <div class="mediaa-dashboard-content">
+
+        <?php
+
+        if ($tab === '') {
+        ?>
+
+            <div class="mediaa-dashboard-welcome">
+
+                <p style="margin-top: 1rem;">
+                    Wybierz jedną z sekcji powyżej, aby rozpocząć pracę.
+                </p>
+
+                <div class="mediaa-dashboard-welcome-grid">
+
+                    <div>
+                        <strong>📦 Zamówienia</strong><br>
+                        <small>Sprawdź historię i status swoich zamówień.</small>
+                    </div>
+
+                    <div>
+                        <strong>👤 Dane firmy</strong><br>
+                        <small>Zweryfikuj dane swojej firmy oraz dane kontaktowe.</small>
+                    </div>
+
+                    <div>
+                        <strong>📄 Materiały</strong><br>
+                        <small>Pobierz katalogi, cenniki i materiały marketingowe.</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        <?php
+        } else {
+
+            switch ($tab) {
+
+                case 'company':
+                    require MEDIAA_B2B_PATH . 'templates/company.php';
+                    break;
+
+                case 'downloads':
+                    require MEDIAA_B2B_PATH . 'templates/downloads.php';
+                    break;
+
+                case 'orders':
+                    require MEDIAA_B2B_PATH . 'templates/orders.php';
+                    break;
+            }
+        }
+
+        ?>
 
     </div>
 
