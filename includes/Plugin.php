@@ -18,5 +18,7 @@ class Plugin
         (new ProductManager())->register();
 
         (new AdminController())->register();
+
+        (new PartnerAdminController())->register();
     }
 }

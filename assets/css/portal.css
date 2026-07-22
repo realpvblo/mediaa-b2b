@@ -573,3 +573,242 @@
     text-decoration: underline;
 
 }
+
+/* ==========================================
+   Partner Program
+========================================== */
+
+.mediaa-partner {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.mediaa-partner-description {
+    margin-top: -10px;
+    color: #6b7280;
+}
+
+/* ---------- Kod partnera ---------- */
+
+.mediaa-partner-code {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mediaa-partner-code label {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.mediaa-partner-code-box {
+    display: flex;
+    gap: 12px;
+}
+
+.mediaa-partner-code-box input {
+    flex: 1;
+    height: 50px;
+    padding: 0 18px;
+    border: 1px solid #dfe3e8;
+    border-radius: 10px;
+    background: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #111827;
+}
+
+.mediaa-copy-code {
+    padding: 0 22px;
+    border: none;
+    border-radius: 10px;
+    background: #0F55DC;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 600;
+    transition: .25s;
+}
+
+.mediaa-copy-code:hover {
+    background: #0d4bc4;
+}
+
+/* ---------- Statystyki ---------- */
+
+.mediaa-partner-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.mediaa-partner-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 8px 24px rgba(15, 85, 220, .05);
+    transition: .2s;
+}
+
+.mediaa-partner-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(15, 85, 220, .10);
+}
+
+.mediaa-partner-card span {
+    display: block;
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 10px;
+}
+
+.mediaa-partner-card strong {
+    display: block;
+    font-size: 30px;
+    line-height: 1;
+    color: #111827;
+}
+
+/* ---------- Historia ---------- */
+
+.mediaa-partner-history {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(15, 85, 220, .05);
+}
+
+.mediaa-partner-history h4 {
+    margin: 0;
+    padding: 22px 24px;
+    border-bottom: 1px solid #eceff3;
+    font-size: 18px;
+}
+
+.mediaa-partner-history table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.mediaa-partner-history thead {
+    background: #f8fafc;
+}
+
+.mediaa-partner-history th {
+    padding: 16px 20px;
+    text-align: left;
+    font-size: 14px;
+    color: #6b7280;
+    font-weight: 600;
+}
+
+.mediaa-partner-history td {
+    padding: 18px 20px;
+    border-top: 1px solid #f1f3f5;
+}
+
+.mediaa-partner-history tbody tr:hover {
+    background: #fafcff;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 992px) {
+
+    .mediaa-partner-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media (max-width: 640px) {
+
+    .mediaa-partner-code-box {
+        flex-direction: column;
+    }
+
+    .mediaa-partner-stats {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+/* ==========================================
+   Status badges
+========================================== */
+
+.mediaa-status {
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 6px 12px;
+
+    border-radius: 999px;
+
+    font-size: 13px;
+    font-weight: 600;
+
+}
+
+.mediaa-status.is-pending {
+
+    background: #dcfce7;
+    color: #166534;
+
+}
+
+.mediaa-status.is-paid {
+
+    background: #f3f4f6;
+    color: #4b5563;
+
+}
+
+/* ==========================================
+   Partner admin
+========================================== */
+
+.mediaa-code {
+
+    display: inline-block;
+
+    padding: 8px 12px;
+
+    border-radius: 8px;
+
+    background: #f3f4f6;
+
+    color: #111827;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    letter-spacing: .5px;
+
+}
+
+.mediaa-rate {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 6px 12px;
+
+    border-radius: 999px;
+
+    background: #eef2ff;
+
+    color: #4338ca;
+
+    font-weight: 600;
+
+}

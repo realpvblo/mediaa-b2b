@@ -60,6 +60,16 @@ $tab = sanitize_key(
         </a>
 
         <a href="<?php echo esc_url(
+                        home_url('/b2b?tab=partner')
+                    ); ?>" class="mediaa-dashboard-card <?php echo $tab === 'partner' ? 'is-active' : ''; ?>">
+
+            <span>🤝</span>
+
+            <strong>Partner</strong>
+
+        </a>
+
+        <a href="<?php echo esc_url(
                         home_url('/b2b?tab=password')
                     ); ?>" class="mediaa-dashboard-card <?php echo $tab === 'password' ? 'is-active' : ''; ?>">
 
@@ -82,6 +92,7 @@ $tab = sanitize_key(
             <strong>Wyloguj</strong>
 
         </a>
+
     </div>
 
     <div class="mediaa-dashboard-content">
@@ -115,6 +126,11 @@ $tab = sanitize_key(
                     </div>
 
                     <div>
+                        <strong>🤝 Partner</strong><br>
+                        <small>Śledź wykorzystanie swojego kodu partnerskiego, prowizje oraz historię wypłat.</small>
+                    </div>
+
+                    <div>
                         <strong>🔒 Hasło</strong><br>
                         <small>Zmień hasło do swojego konta B2B.</small>
                     </div>
@@ -134,6 +150,10 @@ $tab = sanitize_key(
 
                 case 'downloads':
                     require MEDIAA_B2B_PATH . 'templates/downloads.php';
+                    break;
+
+                case 'partner':
+                    require MEDIAA_B2B_PATH . 'templates/partner.php';
                     break;
 
                 case 'password':
