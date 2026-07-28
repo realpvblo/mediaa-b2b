@@ -10,6 +10,8 @@ class ActivationManager
 
         Pages::create();
 
+        Database::install();
+
         \flush_rewrite_rules();
     }
 }
