@@ -15,6 +15,12 @@ class AdminController
             'admin_post_mediaa_b2b_approve_user',
             [$this, 'approveUser']
         );
+
+        // The following action is commented out because the savePartner method is not implemented yet. It will be implemented in the next step.
+        // \add_action(
+        //     'admin_post_mediaa_b2b_save_partner',
+        //     [$this, 'savePartner']
+        // );
     }
 
     public function registerMenu(): void
@@ -150,11 +156,17 @@ class AdminController
 
                     <th>Data rejestracji</th>
 
-                    <?php if ($showActions) : ?>
+                    <?php if (! $showActions) : ?>
 
-                        <th>Akcja</th>
+                        <th>Kod partnera</th>
+
+                        <th>Prowizja</th>
+
+                        <th>Partner</th>
 
                     <?php endif; ?>
+
+                    <th>Akcja</th>
 
                 </tr>
 
@@ -198,6 +210,12 @@ class AdminController
                     $firstName . ' ' . $lastName
                 );
 
+                $partnerCode = PartnerManager::getCode($user->ID);
+
+                $partnerRate = PartnerManager::getRate($user->ID);
+
+                $isPartner = PartnerManager::isPartner($user->ID);
+
             ?>
 
                 <tr>
@@ -214,41 +232,58 @@ class AdminController
 
                     <td><?php echo esc_html($user->user_registered); ?></td>
 
-                    <?php if ($showActions) : ?>
+                    <?php if (! $showActions) : ?>
 
                         <td>
+                            <?php echo esc_html($partnerCode ?: '—'); ?>
+                        </td>
 
+                        <td>
+                            <?php echo $isPartner ? esc_html($partnerRate . '%') : '—'; ?>
+                        </td>
+
+                        <td>
+                            <?php if ($isPartner) : ?>
+                                <span class="mediaa-status is-paid">Partner</span>
+                            <?php else : ?>
+                                <span class="mediaa-status is-pending">Nie</span>
+                            <?php endif; ?>
+                        </td>
+
+                    <?php endif; ?>
+
+                    <?php if ($showActions) : ?>
+                        <td>
                             <form
                                 method="post"
                                 action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-
                                 <input
                                     type="hidden"
                                     name="action"
                                     value="mediaa_b2b_approve_user">
-
                                 <input
                                     type="hidden"
                                     name="user_id"
                                     value="<?php echo esc_attr($user->ID); ?>">
-
                                 <?php
                                 wp_nonce_field(
                                     'mediaa_b2b_approve_user',
                                     'mediaa_b2b_nonce'
                                 );
                                 ?>
-
                                 <button class="button button-primary">
-
                                     Akceptuj
-
                                 </button>
-
                             </form>
-
                         </td>
-
+                    <?php else: ?>
+                        <td>
+                            <a
+                                href="<?php echo esc_url(admin_url('admin.php?page=mediaa-b2b-edit-partner&user_id=' . $user->ID)); ?>"
+                                class="button button-secondary">
+                                👤 Edytuj partnera
+                            </a>
+                        </td>
                     <?php endif; ?>
 
                 </tr>

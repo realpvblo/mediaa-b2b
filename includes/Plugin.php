@@ -20,5 +20,11 @@ class Plugin
         (new AdminController())->register();
 
         (new PartnerAdminController())->register();
+
+        (new EditPartnerController())->register();
+
+        (new ReferralController())->register();
+
+        (new CartPartnerController())->register();
     }
 }
