@@ -110,69 +110,6 @@ class PartnerAdminController
 
             </table>
 
-            <!-- tabela z historią prowizji  -->
-
-            <!-- <h2 style="margin-top:40px;">Historia prowizji</h2>
-
-            <table class="widefat striped">
-
-                <thead>
-
-                    <tr>
-
-                        <th>Data</th>
-                        <th>Zamówienie</th>
-                        <th>Klient</th>
-                        <th>Kwota</th>
-                        <th>Prowizja</th>
-                        <th>Status</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    <?php foreach ($history as $item) : ?>
-
-                        <tr>
-
-                            <td><?php echo esc_html($item['date']); ?></td>
-
-                            <td><?php echo esc_html($item['order']); ?></td>
-
-                            <td><?php echo esc_html($item['customer']); ?></td>
-
-                            <td><?php echo esc_html($item['total']); ?></td>
-
-                            <td><?php echo esc_html($item['commission']); ?></td>
-
-                            <td>
-
-                                <?php if ($item['status'] === 'Do wypłaty') : ?>
-
-                                    <span class="mediaa-status is-pending">
-                                        <?php echo esc_html($item['status']); ?>
-                                    </span>
-
-                                <?php else : ?>
-
-                                    <span class="mediaa-status is-paid">
-                                        <?php echo esc_html($item['status']); ?>
-                                    </span>
-
-                                <?php endif; ?>
-
-                            </td>
-
-                        </tr>
-
-                    <?php endforeach; ?>
-
-                </tbody>
-
-            </table> -->
-
         </div>
 
         <?php

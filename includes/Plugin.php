@@ -28,5 +28,7 @@ class Plugin
         (new CartPartnerController())->register();
 
         (new CommissionManager())->register();
+
+        (new CommissionAdminController())->register();
     }
 }

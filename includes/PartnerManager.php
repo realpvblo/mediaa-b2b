@@ -155,7 +155,7 @@ class PartnerManager
     public static function getPartners(): array
     {
         $users = get_users([
-            'role' => Roles::B2B_CUSTOMER,
+            'role' => Roles::ROLE_B2B_CUSTOMER,
         ]);
 
         $partners = [];

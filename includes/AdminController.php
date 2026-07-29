@@ -27,7 +27,8 @@ class AdminController
     {
         $pendingCount = \count($this->getPendingUsers());
 
-        $menuTitle = __('Mediaa B2B', 'mediaa-b2b');
+        // $menuTitle = __('Mediaa B2B', 'mediaa-b2b');
+        $menuTitle = __('Klienci B2B', 'klienci-b2b');
 
         if ($pendingCount > 0) {
             $menuTitle .= sprintf(

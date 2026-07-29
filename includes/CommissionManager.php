@@ -196,6 +196,61 @@ class CommissionManager
         );
     }
 
+    public static function getCommissionList(): array
+    {
+        $rows = self::getAllCommissions();
+
+        $commissions = [];
+
+        foreach ($rows as $row) {
+
+            $user = get_userdata(
+                $row->partner_id
+            );
+
+            $company = get_user_meta(
+                $row->partner_id,
+                'billing_company',
+                true
+            );
+
+            if ($company === '') {
+                $company = $user?->display_name ?? '-';
+            }
+
+            $commissions[] = [
+
+                'id' => (int) $row->id,
+
+                'partner_id' => (int) $row->partner_id,
+
+                'partner' => $company,
+
+                'code' => PartnerManager::getCode(
+                    $row->partner_id
+                ),
+
+                'order_id' => (int) $row->order_id,
+
+                'order_total' => wc_price(
+                    $row->order_total
+                ),
+
+                'commission' => wc_price(
+                    $row->commission_amount
+                ),
+
+                'rate' => (float) $row->commission_rate,
+
+                'status' => $row->status,
+
+                'created_at' => $row->created_at,
+            ];
+        }
+
+        return $commissions;
+    }
+
     public static function getPartnerPendingBalance(
     int $partnerId
     ): float
