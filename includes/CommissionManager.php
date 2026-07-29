@@ -196,6 +196,94 @@ class CommissionManager
         );
     }
 
+    public static function getPartnerPendingBalance(
+    int $partnerId
+    ): float
+    {
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'mediaa_b2b_commissions';
+
+        $amount = $wpdb->get_var(
+            $wpdb->prepare(
+                "
+                SELECT SUM(commission_amount)
+                FROM {$table}
+                WHERE partner_id = %d
+                AND status = 'pending'
+                ",
+                $partnerId
+            )
+        );
+
+        return (float) ($amount ?? 0);
+    }
+
+    public static function getPartnerPaidBalance(
+    int $partnerId
+    ): float
+    {
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'mediaa_b2b_commissions';
+
+        $amount = $wpdb->get_var(
+            $wpdb->prepare(
+                "
+                SELECT SUM(commission_amount)
+                FROM {$table}
+                WHERE partner_id = %d
+                AND status = 'paid'
+                ",
+                $partnerId
+            )
+        );
+
+        return (float) ($amount ?? 0);
+    }
+
+    public static function getPartnerTotalBalance(
+    int $partnerId
+    ): float
+    {
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'mediaa_b2b_commissions';
+
+        $amount = $wpdb->get_var(
+            $wpdb->prepare(
+                "
+                SELECT SUM(commission_amount)
+                FROM {$table}
+                WHERE partner_id = %d
+                ",
+                $partnerId
+            )
+        );
+
+        return (float) ($amount ?? 0);
+    }
+
+    public static function getPartnerOrdersCount(
+    int $partnerId
+    ): int
+    {
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'mediaa_b2b_commissions';
+
+        return (int) $wpdb->get_var(
+            $wpdb->prepare(
+                "
+                SELECT COUNT(*)
+                FROM {$table}
+                WHERE partner_id = %d
+                ",
+                $partnerId
+            )
+        );
+    }
+
     private function commissionExists(
     int $orderId
     ): bool

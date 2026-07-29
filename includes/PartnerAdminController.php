@@ -30,49 +30,7 @@ class PartnerAdminController
 
     public function renderPartnerPage(): void
     {
-        $partners = [
-
-            [
-                'company' => 'testB2B',
-                'code' => 'TEST-PARTNER',
-                'rate' => '10%',
-                'balance' => '326,90 zł',
-                'paid' => '1 248,30 zł',
-                'orders' => 12,
-            ],
-
-        ];
-
-        $history = [
-
-            [
-                'date' => '20.07.2026',
-                'order' => '#1068',
-                'customer' => 'Jan Kowalski',
-                'total' => '329,00 zł',
-                'commission' => '32,90 zł',
-                'status' => 'Do wypłaty',
-            ],
-
-            [
-                'date' => '18.07.2026',
-                'order' => '#1063',
-                'customer' => 'Anna Nowak',
-                'total' => '599,00 zł',
-                'commission' => '59,90 zł',
-                'status' => 'Wypłacono',
-            ],
-
-            [
-                'date' => '16.07.2026',
-                'order' => '#1059',
-                'customer' => 'Piotr Wiśniewski',
-                'total' => '149,00 zł',
-                'commission' => '14,90 zł',
-                'status' => 'Wypłacono',
-            ],
-
-        ];
+        $partners = PartnerManager::getPartners();
 
         ?>
 
@@ -113,23 +71,15 @@ class PartnerAdminController
                             <td><?php echo esc_html($partner['company']); ?></td>
 
                             <td>
-
                                 <span class="mediaa-code">
-
                                     <?php echo esc_html($partner['code']); ?>
-
                                 </span>
-
                             </td>
 
                             <td>
-
-                                <span class="mediaa-rate">
-
-                                    <?php echo esc_html($partner['rate']); ?>
-
-                                </span>
-
+                                <?php echo esc_html(
+                                    $partner['rate']
+                                ); ?>%
                             </td>
 
                             <td><?php echo esc_html($partner['balance']); ?></td>
@@ -139,19 +89,17 @@ class PartnerAdminController
                             <td><?php echo esc_html($partner['orders']); ?></td>
 
                             <td>
-
                                 <a
                                     href="<?php echo esc_url(
                                         admin_url(
-                                            'admin.php?page=mediaa-b2b-partners&partner=' . urlencode($partner['company'])
+                                            // 'admin.php?page=mediaa-b2b-partners&partner=' . urlencode($partner['company'])
+                                            'admin.php?page=mediaa-b2b-partners&partner=' . $partner['id']
                                         )
                                     ); ?>"
                                     class="button button-primary">
 
                                     👁 Zobacz
-
                                 </a>
-
                             </td>
 
                         </tr>
@@ -162,7 +110,9 @@ class PartnerAdminController
 
             </table>
 
-            <h2 style="margin-top:40px;">Historia prowizji</h2>
+            <!-- tabela z historią prowizji  -->
+
+            <!-- <h2 style="margin-top:40px;">Historia prowizji</h2>
 
             <table class="widefat striped">
 
@@ -221,7 +171,7 @@ class PartnerAdminController
 
                 </tbody>
 
-            </table>
+            </table> -->
 
         </div>
 

@@ -141,14 +141,81 @@ class PartnerManager
         return (int) $users[0];
     }
 
-    public static function getPartnerRate(
-    int $partnerId
-    ): float
+    // public static function getPartnerRate(
+    // int $partnerId
+    // ): float
+    // {
+    //     return (float) get_user_meta(
+    //         $partnerId,
+    //         self::RATE_META,
+    //         true
+    //     );
+    // }
+
+    public static function getPartners(): array
     {
-        return (float) get_user_meta(
-            $partnerId,
-            self::RATE_META,
-            true
+        $users = get_users([
+            'role' => Roles::B2B_CUSTOMER,
+        ]);
+
+        $partners = [];
+
+        foreach ($users as $user) {
+
+            if (! self::isPartner($user->ID)) {
+                continue;
+            }
+
+            $company = (string) get_user_meta(
+                $user->ID,
+                'billing_company',
+                true
+            );
+
+            if ($company === '') {
+                $company = $user->display_name;
+            }
+
+            $partners[] = [
+                'id' => $user->ID,
+
+                'company' => $company,
+
+                'code' => self::getCode(
+                    $user->ID
+                ),
+
+                'rate' => self::getRate(
+                    $user->ID
+                ),
+
+                'balance' => self::formatMoney(
+                    CommissionManager::getPartnerPendingBalance(
+                        $user->ID
+                    )
+                ),
+
+                'paid' => self::formatMoney(
+                    CommissionManager::getPartnerPaidBalance(
+                        $user->ID
+                    )
+                ),
+
+                'orders' => CommissionManager::getPartnerOrdersCount(
+                    $user->ID
+                ),
+            ];
+        }
+
+        return $partners;
+    }
+
+    private static function formatMoney(
+    float $amount
+    ): string
+    {
+        return wp_strip_all_tags(
+            wc_price($amount)
         );
     }
 }
