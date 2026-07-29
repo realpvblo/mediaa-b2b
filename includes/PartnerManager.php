@@ -140,4 +140,15 @@ class PartnerManager
 
         return (int) $users[0];
     }
+
+    public static function getPartnerRate(
+    int $partnerId
+    ): float
+    {
+        return (float) get_user_meta(
+            $partnerId,
+            self::RATE_META,
+            true
+        );
+    }
 }

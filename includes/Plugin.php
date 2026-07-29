@@ -26,5 +26,7 @@ class Plugin
         (new ReferralController())->register();
 
         (new CartPartnerController())->register();
+
+        (new CommissionManager())->register();
     }
 }
