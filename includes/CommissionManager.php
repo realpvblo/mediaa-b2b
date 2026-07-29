@@ -251,6 +251,70 @@ class CommissionManager
         return $commissions;
     }
 
+    public static function getCommissionDetails(
+    int $commissionId
+    ): ?array
+    {
+        $commission = self::getCommissionById(
+            $commissionId
+        );
+
+        if (! $commission) {
+            return null;
+        }
+
+        $user = get_userdata(
+            $commission->partner_id
+        );
+
+        $company = get_user_meta(
+            $commission->partner_id,
+            'billing_company',
+            true
+        );
+
+        if ($company === '') {
+            $company = $user?->display_name ?? '-';
+        }
+
+        $order = wc_get_order(
+            $commission->order_id
+        );
+
+        return [
+
+            'id' => (int) $commission->id,
+
+            'partner_id' => (int) $commission->partner_id,
+
+            'partner' => $company,
+
+            'code' => PartnerManager::getCode(
+                $commission->partner_id
+            ),
+
+            'rate' => (float) $commission->commission_rate,
+
+            'status' => $commission->status,
+
+            'created_at' => $commission->created_at,
+
+            'order_id' => (int) $commission->order_id,
+
+            'order' => $order,
+
+            'order_total' => wc_price(
+                $commission->order_total
+            ),
+
+            'commission' => wc_price(
+                $commission->commission_amount
+            ),
+
+            'commission_amount' => (float) $commission->commission_amount,
+        ];
+    }
+
     public static function getPartnerPendingBalance(
     int $partnerId
     ): float

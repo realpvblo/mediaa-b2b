@@ -20,8 +20,8 @@ class CommissionAdminController
     {
         add_submenu_page(
             'mediaa-b2b',
-            __('Prowizje', 'mediaa-b2b'),
-            __('Prowizje', 'mediaa-b2b'),
+            'Prowizje',
+            'Prowizje',
             'manage_woocommerce',
             'mediaa-b2b-commissions',
             [$this, 'renderCommissionPage']
@@ -29,6 +29,22 @@ class CommissionAdminController
     }
 
     public function renderCommissionPage(): void
+    {
+        if (
+            isset($_GET['commission'])
+            && is_numeric($_GET['commission'])
+        ) {
+            $this->renderCommissionDetails(
+                (int) $_GET['commission']
+            );
+
+            return;
+        }
+
+        $this->renderCommissionList();
+    }
+
+    private function renderCommissionList(): void
     {
         $commissions = CommissionManager::getCommissionList();
 
@@ -60,6 +76,8 @@ class CommissionAdminController
 
                         <tr>
 
+                            <th>ID</th>
+
                             <th>Partner</th>
 
                             <th>Kod</th>
@@ -85,6 +103,14 @@ class CommissionAdminController
                         <?php foreach ($commissions as $commission) : ?>
 
                             <tr>
+
+                                <td>
+
+                                    #<?php echo esc_html(
+                                        $commission['id']
+                                    ); ?>
+
+                                </td>
 
                                 <td>
 
@@ -203,7 +229,12 @@ class CommissionAdminController
                                 <td>
 
                                     <a
-                                        href="#"
+                                        href="<?php echo esc_url(
+                                            admin_url(
+                                                'admin.php?page=mediaa-b2b-commissions&commission=' .
+                                                $commission['id']
+                                            )
+                                        ); ?>"
                                         class="button button-primary">
 
                                         👁 Zobacz
@@ -221,6 +252,353 @@ class CommissionAdminController
                 </table>
 
             <?php endif; ?>
+
+        </div>
+
+        <?php
+    }
+
+    private function renderCommissionDetails(
+    int $commissionId
+    ): void
+    {
+        $commission = CommissionManager::getCommissionDetails(
+            $commissionId
+        );
+
+        if (! $commission) {
+
+            ?>
+
+            <div class="wrap">
+
+                <h1>Prowizja nie istnieje</h1>
+
+                <a
+                    href="<?php echo esc_url(
+                        admin_url(
+                            'admin.php?page=mediaa-b2b-commissions'
+                        )
+                    ); ?>"
+                    class="button">
+
+                    ← Powrót
+
+                </a>
+
+            </div>
+
+            <?php
+
+            return;
+        }
+
+        /** @var WC_Order|null $order */
+        $order = $commission['order'];
+
+        ?>
+
+        <div class="wrap">
+
+            <p>
+
+                <a
+                    href="<?php echo esc_url(
+                        admin_url(
+                            'admin.php?page=mediaa-b2b-commissions'
+                        )
+                    ); ?>"
+                    class="button">
+
+                    ← Powrót do listy
+
+                </a>
+
+            </p>
+
+            <h1>
+
+                Prowizja #<?php echo esc_html(
+                    $commission['id']
+                ); ?>
+
+            </h1>
+
+            <table class="form-table">
+
+                <tbody>
+
+                    <tr>
+
+                        <th>Partner</th>
+
+                        <td>
+
+                            <strong>
+
+                                <?php echo esc_html(
+                                    $commission['partner']
+                                ); ?>
+
+                            </strong>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Kod partnerski</th>
+
+                        <td>
+
+                            <?php echo esc_html(
+                                $commission['code']
+                            ); ?>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Prowizja</th>
+
+                        <td>
+
+                            <strong>
+
+                                <?php echo wp_kses_post(
+                                    $commission['commission']
+                                ); ?>
+
+                            </strong>
+
+                            (<?php echo esc_html(
+                                $commission['rate']
+                            ); ?>%)
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Wartość zamówienia</th>
+
+                        <td>
+
+                            <?php echo wp_kses_post(
+                                $commission['order_total']
+                            ); ?>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Status</th>
+
+                        <td>
+
+                            <?php
+                            if ($commission['status'] === 'pending') {
+                                echo '🟡 Do wypłaty';
+                            } else {
+                                echo '🟢 Wypłacona';
+                            }
+                            ?>
+
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>Data naliczenia</th>
+
+                        <td>
+
+                            <?php
+
+                            echo esc_html(
+                                date_i18n(
+                                    'd.m.Y H:i',
+                                    strtotime(
+                                        $commission['created_at']
+                                    )
+                                )
+                            );
+
+                            ?>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <?php if ($order) : ?>
+
+                <hr>
+
+                <h2>
+
+                    Zamówienie #<?php echo esc_html(
+                        $order->get_id()
+                    ); ?>
+
+                </h2>
+
+                <table class="form-table">
+
+                    <tbody>
+
+                        <tr>
+
+                            <th>Klient</th>
+
+                            <td>
+
+                                <?php echo esc_html(
+                                    $order->get_formatted_billing_full_name()
+                                ); ?>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Email</th>
+
+                            <td>
+
+                                <?php echo esc_html(
+                                    $order->get_billing_email()
+                                ); ?>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Telefon</th>
+
+                            <td>
+
+                                <?php echo esc_html(
+                                    $order->get_billing_phone()
+                                ); ?>
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Łączna kwota</th>
+
+                            <td>
+
+                                <?php echo wp_kses_post(
+                                    $order->get_formatted_order_total()
+                                ); ?>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+                <h2>
+
+                    Produkty
+
+                </h2>
+
+                <table class="widefat striped">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Produkt</th>
+
+                            <th>Ilość</th>
+
+                            <th>Suma</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <?php foreach ($order->get_items() as $item) : ?>
+
+                            <tr>
+
+                                <td>
+
+                                    <?php echo esc_html(
+                                        $item->get_name()
+                                    ); ?>
+
+                                </td>
+
+                                <td>
+
+                                    <?php echo esc_html(
+                                        $item->get_quantity()
+                                    ); ?>
+
+                                </td>
+
+                                <td>
+
+                                    <?php
+
+                                    echo wp_kses_post(
+                                        wc_price(
+                                            $item->get_total()
+                                        )
+                                    );
+
+                                    ?>
+
+                                </td>
+
+                            </tr>
+
+                        <?php endforeach; ?>
+
+                    </tbody>
+
+                </table>
+
+            <?php endif; ?>
+
+            <hr>
+
+            <p>
+
+                <button
+                    class="button button-primary"
+                    disabled>
+
+                    ✓ Oznacz jako wypłaconą
+                    <small>(wkrótce)</small>
+
+                </button>
+
+            </p>
 
         </div>
 
