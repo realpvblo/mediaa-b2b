@@ -92,6 +92,110 @@ class CommissionManager
         );
     }
 
+    public static function getCommissionByOrderId(
+    int $orderId
+    ): ?object
+    {
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'mediaa_b2b_commissions';
+
+        $commission = $wpdb->get_row(
+            $wpdb->prepare(
+                "
+                SELECT *
+                FROM {$table}
+                WHERE order_id = %d
+                LIMIT 1
+                ",
+                $orderId
+            )
+        );
+
+        return $commission;
+    }
+
+    public static function getCommissionById(
+    int $commissionId
+    ): ?object
+    {
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'mediaa_b2b_commissions';
+
+        $commission = $wpdb->get_row(
+            $wpdb->prepare(
+                "
+                SELECT *
+                FROM {$table}
+                WHERE id = %d
+                LIMIT 1
+                ",
+                $commissionId
+            )
+        );
+
+        return $commission;
+    }
+
+    public static function getPartnerCommissions(
+    int $partnerId
+    ): array
+    {
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'mediaa_b2b_commissions';
+
+        return $wpdb->get_results(
+            $wpdb->prepare(
+                "
+                SELECT *
+                FROM {$table}
+                WHERE partner_id = %d
+                ORDER BY created_at DESC
+                ",
+                $partnerId
+            )
+        );
+    }
+
+    public static function getPendingCommissions(
+    int $partnerId
+    ): array
+    {
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'mediaa_b2b_commissions';
+
+        return $wpdb->get_results(
+            $wpdb->prepare(
+                "
+                SELECT *
+                FROM {$table}
+                WHERE partner_id = %d
+                AND status = 'pending'
+                ORDER BY created_at ASC
+                ",
+                $partnerId
+            )
+        );
+    }
+
+    public static function getAllCommissions(): array
+    {
+        global $wpdb;
+
+        $table = $wpdb->prefix . 'mediaa_b2b_commissions';
+
+        return $wpdb->get_results(
+            "
+            SELECT *
+            FROM {$table}
+            ORDER BY created_at DESC
+            "
+        );
+    }
+
     private function commissionExists(
     int $orderId
     ): bool
