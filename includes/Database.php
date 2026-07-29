@@ -65,7 +65,7 @@ class Database
 
                 status VARCHAR(20) NOT NULL,
 
-                created_at DATETIME NOT NULL,
+                created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
                 paid_at DATETIME NULL,
 
@@ -75,7 +75,7 @@ class Database
 
                 KEY partner_id (partner_id),
 
-                KEY order_id (order_id),
+                UNIQUE KEY order_id (order_id),
 
                 KEY withdrawal_id (withdrawal_id),
 
