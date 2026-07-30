@@ -285,4 +285,41 @@ class PartnerManager
             ),
         ];
     }
+
+    public static function getDashboardData(
+        int $partnerId
+    ): array {
+
+        $code = self::getCode($partnerId);
+
+        return [
+
+            'code' => $code,
+
+            'link' => add_query_arg(
+                'ref',
+                $code,
+                home_url('/')
+            ),
+
+            'rate' => self::getRate($partnerId),
+
+            'balance' => CommissionManager::getPartnerPendingBalance(
+                $partnerId
+            ),
+
+            'paid' => CommissionManager::getPartnerPaidBalance(
+                $partnerId
+            ),
+
+            'orders' => CommissionManager::getPartnerOrdersCount(
+                $partnerId
+            ),
+
+            'commissions' => CommissionManager::getPartnerCommissions(
+                $partnerId
+            ),
+
+        ];
+    }
 }

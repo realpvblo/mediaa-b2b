@@ -182,35 +182,45 @@ class CommissionAdminController
                                 </td>
 
                                 <td>
+                                    <?php
 
-                                    <?php if (
-                                        $commission['status'] === 'pending'
-                                    ) : ?>
+                                    $status = '-';
+                                    $color = '';
+                                    $icon = '';
 
-                                        <span
-                                            style="
-                                                color:#996800;
-                                                font-weight:600;
-                                            ">
+                                    if (
+                                        $commission['status'] === CommissionManager::STATUS_PAID
+                                    ) {
 
-                                            🟡 Do wypłaty
+                                        $status = 'Wypłacona';
+                                        $color = '#008a20';
+                                        $icon = '🟢';
 
-                                        </span>
+                                    } elseif (
+                                        ! empty($commission['withdrawal_id'])
+                                    ) {
 
-                                    <?php else : ?>
+                                        $status = 'Do wypłaty';
+                                        $color = '#996800';
+                                        $icon = '🟡';
 
-                                        <span
-                                            style="
-                                                color:#008a20;
-                                                font-weight:600;
-                                            ">
+                                    }
 
-                                            🟢 Wypłacona
+                                    ?>
 
-                                        </span>
+                                    <span
+                                        style="
+                                            color:<?php echo esc_attr($color); ?>;
+                                            font-weight:600;
+                                        ">
 
-                                    <?php endif; ?>
+                                        <?php
+                                        echo esc_html(
+                                            trim($icon . ' ' . $status)
+                                        );
+                                        ?>
 
+                                    </span>
                                 </td>
 
                                 <td>
@@ -449,21 +459,32 @@ class CommissionAdminController
                     </tr>
 
                     <tr>
-
                         <th>Status</th>
-
                         <td>
 
                             <?php
-                            if ($commission['status'] === 'pending') {
-                                echo '🟡 Do wypłaty';
-                            } else {
+
+                            if (
+                                $commission['status'] === CommissionManager::STATUS_PAID
+                            ) {
+
                                 echo '🟢 Wypłacona';
+
+                            } elseif (
+                                ! empty($commission['withdrawal_id'])
+                            ) {
+
+                                echo '🟡 Do wypłaty';
+
+                            } else {
+
+                                echo '-';
+
                             }
+
                             ?>
-
+                            
                         </td>
-
                     </tr>
 
                     <tr>

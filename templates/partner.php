@@ -1,51 +1,31 @@
 <?php
 
-/**
- * Tymczasowe dane demonstracyjne.
- * W kolejnych etapach zostaną zastąpione danymi z WooCommerce.
- */
+use MediaaB2B\DashboardController;
+use MediaaB2B\CommissionManager;
 
-$partnerCode = 'TEST-PARTNER';
-$partnerRate = '10%';
-$partnerBalance = '326,90 zł';
-$partnerPaid = '1 248,30 zł';
-$partnerOrders = 12;
+$controller = new DashboardController();
 
-$commissions = [
+$data = $controller->getPartnerDashboard();
 
-    [
-        'date' => '20.07.2026',
-        'order' => '1068',
-        'total' => '329,00 zł',
-        'commission' => '32,90 zł',
-        'status' => 'Do wypłaty'
-    ],
+$partnerCode = $data['code'];
 
-    [
-        'date' => '18.07.2026',
-        'order' => '1063',
-        'total' => '599,00 zł',
-        'commission' => '59,90 zł',
-        'status' => 'Wypłacono'
-    ],
+$partnerLink = $data['link'];
 
-    [
-        'date' => '16.07.2026',
-        'order' => '1059',
-        'total' => '149,00 zł',
-        'commission' => '14,90 zł',
-        'status' => 'Wypłacono'
-    ],
+$partnerRate = $data['rate'] . '%';
 
-    [
-        'date' => '14.07.2026',
-        'order' => '1053',
-        'total' => '79,00 zł',
-        'commission' => '7,90 zł',
-        'status' => 'Wypłacono'
-    ]
+$partnerBalance = number_format_i18n(
+    $data['balance'],
+    2
+) . ' zł';
 
-];
+$partnerPaid = number_format_i18n(
+    $data['paid'],
+    2
+) . ' zł';
+
+$partnerOrders = $data['orders'];
+
+$commissions = $data['commissions'];
 
 ?>
 
@@ -64,7 +44,6 @@ $commissions = [
         </label>
 
         <div class="mediaa-partner-code-box">
-
             <input
                 id="partner-code"
                 type="text"
@@ -75,11 +54,34 @@ $commissions = [
                 type="button"
                 class="mediaa-copy-code"
                 onclick="copyPartnerCode()">
-
                 📋 Kopiuj
-
             </button>
+        </div>
 
+        <div
+            class="mediaa-partner-link"
+            style="margin-top:15px;"
+        >
+            <label>
+                <strong>Twój link partnerski</strong>
+            </label>
+
+            <div class="mediaa-partner-code-box">
+                <input
+                    type="text"
+                    value="<?php echo esc_attr(
+                        $partnerLink
+                    ); ?>"
+                    readonly>
+
+                <button
+                    type="button"
+                    class="mediaa-copy-code"
+                    onclick="copyPartnerLink()"
+                >
+                    📋 Kopiuj
+                </button>
+            </div>
         </div>
 
     </div>
@@ -164,22 +166,53 @@ $commissions = [
 
                         <tr>
 
-                            <td><?php echo esc_html($commission['date']); ?></td>
+                            <td><?php echo esc_html(date_i18n(
+                                'd.m.Y',
+                                strtotime(
+                                    $commission->created_at
+                                )
+                            )); ?></td>
 
-                            <td>#<?php echo esc_html($commission['order']); ?></td>
-
-                            <td><?php echo esc_html($commission['total']); ?></td>
-
-                            <td><?php echo esc_html($commission['commission']); ?></td>
+                            <td>#<?php echo esc_html($commission->order_id); ?></td>
 
                             <td>
+                                <?php
+                                echo esc_html(
+                                    number_format_i18n(
+                                        $commission->order_total,
+                                        2
+                                    ) . ' zł'
+                                );
+                                ?>
+                            </td>
 
-                                <span class="mediaa-status <?php echo $commission['status'] === 'Do wypłaty' ? 'is-pending' : 'is-paid'; ?>">
+                            <td>
+                                <?php
+                                echo esc_html(
+                                    number_format_i18n(
+                                        $commission->commission_amount,
+                                        2
+                                    ) . ' zł'
+                                );
+                                ?>
+                            </td>
 
-                                    <?php echo esc_html($commission['status']); ?>
+                            <?php
+                            $status = '-';
+                            $class = '';
 
+                            if ($commission->status === CommissionManager::STATUS_PAID) {
+                                $status = 'Wypłacono';
+                                $class = 'is-paid';
+                            } elseif (! empty($commission->withdrawal_id)) {
+                                $status = 'Do wypłaty';
+                                $class = 'is-pending';
+                            }
+                            ?>
+                            <td>
+                                <span class="mediaa-status <?php echo esc_attr($class); ?>">
+                                    <?php echo esc_html($status); ?>
                                 </span>
-
                             </td>
 
                         </tr>
@@ -205,6 +238,32 @@ function copyPartnerCode() {
     navigator.clipboard.writeText(input.value);
 
     const button = document.querySelector('.mediaa-copy-code');
+
+    const originalText = button.innerHTML;
+
+    button.innerHTML = '✅ Skopiowano';
+
+    setTimeout(() => {
+
+        button.innerHTML = originalText;
+
+    }, 2000);
+
+}
+
+function copyPartnerLink() {
+
+    const input = document.querySelector(
+        '.mediaa-partner-link input'
+    );
+
+    navigator.clipboard.writeText(
+        input.value
+    );
+
+    const button = document.querySelector(
+        '.mediaa-copy-link'
+    );
 
     const originalText = button.innerHTML;
 

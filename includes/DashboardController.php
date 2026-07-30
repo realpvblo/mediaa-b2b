@@ -8,4 +8,11 @@ class DashboardController
     {
         return \wp_get_current_user();
     }
+
+    public function getPartnerDashboard(): array
+    {
+        return PartnerManager::getDashboardData(
+            get_current_user_id()
+        );
+    }
 }
