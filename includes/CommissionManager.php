@@ -8,6 +8,9 @@ if (! defined('ABSPATH')) {
 
 class CommissionManager
 {
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_PAID = 'paid';
+
     public function register(): void
     {
         add_action(
@@ -41,7 +44,7 @@ class CommissionManager
             return;
         }
 
-        $commissionRate = PartnerManager::getPartnerRate(
+        $commissionRate = PartnerManager::getRate(
             $partnerId
         );
 
