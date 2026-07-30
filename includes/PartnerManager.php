@@ -207,4 +207,82 @@ class PartnerManager
             wc_price($amount)
         );
     }
+
+    public static function getPartnerDetails(
+        int $partnerId
+    ): ?array
+    {
+        $user = get_userdata($partnerId);
+
+        if (! $user) {
+            return null;
+        }
+
+        $company = get_user_meta(
+            $partnerId,
+            'billing_company',
+            true
+        );
+
+        if ($company === '') {
+            $company = $user->display_name;
+        }
+
+        $commissions = CommissionManager::getPartnerCommissions(
+            $partnerId
+        );
+
+        return [
+
+            'id' => $partnerId,
+
+            'company' => $company,
+
+            'name' => $user->display_name,
+
+            'email' => $user->user_email,
+
+            'phone' => get_user_meta(
+                $partnerId,
+                'billing_phone',
+                true
+            ),
+
+            'nip' => get_user_meta(
+                $partnerId,
+                'billing_nip',
+                true
+            ),
+
+            'code' => self::getCode(
+                $partnerId
+            ),
+
+            'rate' => self::getRate(
+                $partnerId
+            ),
+
+            'orders_count' => CommissionManager::getPartnerOrdersCount(
+                $partnerId
+            ),
+
+            'pending_balance' => CommissionManager::getPartnerPendingBalance(
+                $partnerId
+            ),
+
+            'paid_balance' => CommissionManager::getPartnerPaidBalance(
+                $partnerId
+            ),
+
+            'total_balance' => CommissionManager::getPartnerTotalBalance(
+                $partnerId
+            ),
+
+            'commissions' => array_slice(
+                $commissions,
+                0,
+                5
+            ),
+        ];
+    }
 }

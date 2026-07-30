@@ -28,8 +28,54 @@ class PartnerAdminController
         );
     }
 
+    private function renderPartnerDetails(): void
+    {
+        $partnerId = absint(
+            wp_unslash(
+                $_GET['partner_id']
+                ?? 0
+            )
+        );
+
+        $partner = PartnerManager::getPartnerDetails(
+            $partnerId
+        );
+
+        if (! $partner) {
+
+            wp_die(
+                esc_html__(
+                    'Partner nie istnieje.',
+                    'mediaa-b2b'
+                )
+            );
+
+        }
+
+        echo View::render(
+            'admin/partner-details',
+            [
+                'partner' => $partner,
+            ]
+        );
+    }
+
     public function renderPartnerPage(): void
     {
+        $action = sanitize_key(
+            wp_unslash(
+                $_GET['action']
+                ?? ''
+            )
+        );
+
+        if ($action === 'view') {
+
+            $this->renderPartnerDetails();
+
+            return;
+        }
+
         $partners = PartnerManager::getPartners();
 
         ?>
@@ -92,13 +138,15 @@ class PartnerAdminController
                                 <a
                                     href="<?php echo esc_url(
                                         admin_url(
-                                            // 'admin.php?page=mediaa-b2b-partners&partner=' . urlencode($partner['company'])
-                                            'admin.php?page=mediaa-b2b-partners&partner=' . $partner['id']
+                                            'admin.php?page=mediaa-b2b-partners'
+                                            . '&action=view'
+                                            . '&partner_id='
+                                            . $partner['id']
                                         )
                                     ); ?>"
-                                    class="button button-primary">
-
-                                    👁 Zobacz
+                                    class="button button-primary"
+                                >
+                                    Zobacz szczegóły
                                 </a>
                             </td>
 
