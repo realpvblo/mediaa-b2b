@@ -232,10 +232,17 @@ class CartPartnerController
         $partnerId = ReferralController::getPartnerId();
         $partnerCode = ReferralController::getPartnerCode();
 
+        error_log(sprintf(
+            'CartPartnerController: partnerId=%s, partnerCode=%s',
+            var_export($partnerId, true),
+            var_export($partnerCode, true)
+        ));
+
         if (
             $partnerId === null
             || $partnerCode === ''
         ) {
+            error_log('CartPartnerController: partner not saved.');
             return;
         }
 
@@ -248,5 +255,7 @@ class CartPartnerController
             '_mediaa_partner_code',
             $partnerCode
         );
+
+        error_log('CartPartnerController: partner saved to order.');
     }
 }

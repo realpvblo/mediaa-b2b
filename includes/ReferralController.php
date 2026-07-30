@@ -22,11 +22,6 @@ class ReferralController
 
     public function captureReferral(): void
     {
-        error_log(
-            'WC session: ' .
-            (WC()->session ? 'YES' : 'NO')
-        );
-
         if (! function_exists('WC') || ! WC()->session) {
             return;
         }
@@ -51,11 +46,6 @@ class ReferralController
         string $partnerCode
     ): void
     {
-        error_log(
-            'Saving session: '
-            . $partnerCode
-        );
-
         if (! function_exists('WC') || ! WC()->session) {
             return;
         }
@@ -105,6 +95,10 @@ class ReferralController
             return '';
         }
 
+        if (self::getPartnerId() === null) {
+            return '';
+        }
+
         return (string) WC()->session->get(
             self::SESSION_PARTNER_CODE
         );
@@ -127,6 +121,7 @@ class ReferralController
         $partnerId = PartnerManager::getUserIdByCode($code);
 
         if ($partnerId === null) {
+            self::clearPartner();
             return false;
         }
 
