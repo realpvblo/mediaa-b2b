@@ -30,5 +30,7 @@ class Plugin
         (new CommissionManager())->register();
 
         (new CommissionAdminController())->register();
+
+        (new WithdrawalsAdminController())->register();
     }
 }

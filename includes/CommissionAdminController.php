@@ -262,6 +262,41 @@ class CommissionAdminController
     int $commissionId
     ): void
     {
+        if (
+            isset($_POST['mediaa_mark_paid'])
+            && current_user_can('manage_woocommerce')
+        ) {
+
+            check_admin_referer(
+                'mediaa_mark_paid_' . $commissionId
+            );
+
+            WithdrawalManager::createFromCommission(
+                $commissionId
+            );
+
+            // wp_safe_redirect(
+            //     admin_url(
+            //         'admin.php?page=mediaa-b2b-commissions&commission=' .
+            //         $commissionId .
+            //         '&created=1'
+            //     )
+            // );
+
+            wp_safe_redirect(
+                add_query_arg(
+                    [
+                        'page' => 'mediaa-b2b-commissions',
+                        'commission' => $commissionId,
+                        'created' => 1,
+                    ],
+                    admin_url('admin.php')
+                )
+            );
+
+            exit;
+        }
+
         $commission = CommissionManager::getCommissionDetails(
             $commissionId
         );
@@ -323,6 +358,23 @@ class CommissionAdminController
                 ); ?>
 
             </h1>
+
+            <?php if (
+                isset($_GET['created'])
+                && $_GET['created'] === '1'
+            ) : ?>
+
+                <div class="notice notice-success is-dismissible">
+
+                    <p>
+
+                        ✓ Utworzono wypłatę. Możesz ją zrealizować w zakładce <strong>Wypłaty</strong>.
+
+                    </p>
+
+                </div>
+
+            <?php endif; ?>
 
             <table class="form-table">
 
@@ -589,14 +641,50 @@ class CommissionAdminController
 
             <p>
 
-                <button
-                    class="button button-primary"
-                    disabled>
+                <?php if (
+                    $commission['status'] === CommissionManager::STATUS_PENDING
+                ) : ?>
 
-                    ✓ Oznacz jako wypłaconą
-                    <small>(wkrótce)</small>
+                <form method="post">
 
-                </button>
+                    <?php
+                    wp_nonce_field(
+                        'mediaa_mark_paid_' . $commissionId
+                    );
+                    ?>
+
+                    <input
+                        type="hidden"
+                        name="mediaa_mark_paid"
+                        value="1">
+
+                    <button
+                        type="submit"
+                        class="button button-primary">
+
+                        Przekaż do wypłaty
+
+                    </button>
+
+                </form>
+
+                <?php else : ?>
+
+                <p>
+
+                    <span
+                        style="
+                            color:#008a20;
+                            font-weight:600;
+                        ">
+
+                        ✔ Ta prowizja została już wypłacona.
+
+                    </span>
+
+                </p>
+
+                <?php endif; ?>
 
             </p>
 
