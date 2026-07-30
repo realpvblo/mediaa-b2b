@@ -11,6 +11,12 @@ class CommissionManager
     public const STATUS_PENDING = 'pending';
     public const STATUS_PAID = 'paid';
 
+    public static function getTableName(): string
+    {
+        global $wpdb;
+        return $wpdb->prefix . 'mediaa_b2b_commissions';
+    }
+
     public function register(): void
     {
         add_action(
@@ -101,7 +107,7 @@ class CommissionManager
     {
         global $wpdb;
 
-        $table = $wpdb->prefix . 'mediaa_b2b_commissions';
+        $table = self::getTableName();
 
         $commission = $wpdb->get_row(
             $wpdb->prepare(
@@ -124,7 +130,7 @@ class CommissionManager
     {
         global $wpdb;
 
-        $table = $wpdb->prefix . 'mediaa_b2b_commissions';
+        $table = self::getTableName();
 
         $commission = $wpdb->get_row(
             $wpdb->prepare(
@@ -147,7 +153,7 @@ class CommissionManager
     {
         global $wpdb;
 
-        $table = $wpdb->prefix . 'mediaa_b2b_commissions';
+        $table = self::getTableName();
 
         return $wpdb->get_results(
             $wpdb->prepare(
@@ -162,13 +168,35 @@ class CommissionManager
         );
     }
 
+    public static function getPendingPartnerCommissions(
+        int $partnerId
+    ): array {
+
+        global $wpdb;
+
+        return $wpdb->get_results(
+            $wpdb->prepare(
+                "
+                SELECT *
+                FROM " . self::getTableName() . "
+                WHERE partner_id = %d
+                AND status = %s
+                AND withdrawal_id IS NULL
+                ORDER BY created_at ASC
+                ",
+                $partnerId,
+                self::STATUS_PENDING
+            )
+        );
+    }
+
     public static function getPendingCommissions(
     int $partnerId
     ): array
     {
         global $wpdb;
 
-        $table = $wpdb->prefix . 'mediaa_b2b_commissions';
+        $table = self::getTableName();
 
         return $wpdb->get_results(
             $wpdb->prepare(
@@ -188,7 +216,7 @@ class CommissionManager
     {
         global $wpdb;
 
-        $table = $wpdb->prefix . 'mediaa_b2b_commissions';
+        $table = self::getTableName();
 
         return $wpdb->get_results(
             "
@@ -324,7 +352,7 @@ class CommissionManager
     {
         global $wpdb;
 
-        $table = $wpdb->prefix . 'mediaa_b2b_commissions';
+        $table = self::getTableName();
 
         $amount = $wpdb->get_var(
             $wpdb->prepare(
@@ -347,7 +375,7 @@ class CommissionManager
     {
         global $wpdb;
 
-        $table = $wpdb->prefix . 'mediaa_b2b_commissions';
+        $table = self::getTableName();
 
         $amount = $wpdb->get_var(
             $wpdb->prepare(
@@ -370,7 +398,7 @@ class CommissionManager
     {
         global $wpdb;
 
-        $table = $wpdb->prefix . 'mediaa_b2b_commissions';
+        $table = self::getTableName();
 
         $amount = $wpdb->get_var(
             $wpdb->prepare(
@@ -392,7 +420,7 @@ class CommissionManager
     {
         global $wpdb;
 
-        $table = $wpdb->prefix . 'mediaa_b2b_commissions';
+        $table = self::getTableName();
 
         return (int) $wpdb->get_var(
             $wpdb->prepare(

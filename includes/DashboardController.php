@@ -15,4 +15,11 @@ class DashboardController
             get_current_user_id()
         );
     }
+
+    public function requestWithdrawal(): ?int
+    {
+        return WithdrawalManager::createFromPartner(
+            get_current_user_id()
+        );
+    }
 }

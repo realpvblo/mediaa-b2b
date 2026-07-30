@@ -7,6 +7,8 @@ $controller = new DashboardController();
 
 $data = $controller->getPartnerDashboard();
 
+$canRequestWithdrawal = $data['can_request_withdrawal'];
+
 $partnerCode = $data['code'];
 
 $partnerLink = $data['link'];
@@ -27,9 +29,47 @@ $partnerOrders = $data['orders'];
 
 $commissions = $data['commissions'];
 
+if (
+    isset($_POST['mediaa_request_withdrawal'])
+    && is_user_logged_in()
+) {
+
+    check_admin_referer(
+        'mediaa_request_withdrawal'
+    );
+
+    $controller->requestWithdrawal();
+
+    wp_safe_redirect(
+        add_query_arg(
+            'withdrawal',
+            '1',
+            home_url('/b2b?tab=partner')
+        )
+    );
+
+    exit;
+}
+
 ?>
 
 <div class="mediaa-partner">
+
+    <?php if (
+        isset($_GET['withdrawal'])
+        && $_GET['withdrawal'] === '1'
+    ) : ?>
+
+        <div
+            class="notice notice-success"
+            style="margin-bottom:20px;"
+        >
+            <p>
+                ✅ Wniosek o wypłatę został wysłany.
+            </p>
+        </div>
+
+    <?php endif; ?>
 
     <h3>Program Partnerski</h3>
 
@@ -121,6 +161,33 @@ $commissions = $data['commissions'];
         </div>
 
     </div>
+
+    <?php if ($canRequestWithdrawal) : ?>
+        <form
+            method="post"
+            style="margin:30px 0;"
+        >
+            <?php
+            wp_nonce_field(
+                'mediaa_request_withdrawal'
+            );
+            ?>
+
+            <input
+                type="hidden"
+                name="mediaa_request_withdrawal"
+                value="1"
+            >
+
+            <button
+                type="submit"
+                class="button button-primary button-large"
+            >
+                💸 Zleć wypłatę
+            </button>
+        </form>
+
+    <?php endif; ?>
 
     <div class="mediaa-partner-history">
 

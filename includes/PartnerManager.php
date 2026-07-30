@@ -320,6 +320,12 @@ class PartnerManager
                 $partnerId
             ),
 
+            'can_request_withdrawal' => ! empty(
+                CommissionManager::getPendingPartnerCommissions(
+                    $partnerId
+                )
+            ),
+
         ];
     }
 }

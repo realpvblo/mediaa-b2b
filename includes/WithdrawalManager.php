@@ -120,6 +120,83 @@ class WithdrawalManager
         return $withdrawalId;
     }
 
+    public static function createFromPartner(
+        int $partnerId,
+        ?string $note = null
+    ): ?int {
+
+        global $wpdb;
+
+        $commissions = CommissionManager::getPendingPartnerCommissions(
+            $partnerId
+        );
+
+        if (empty($commissions)) {
+            return null;
+        }
+
+        $amount = 0;
+
+        foreach ($commissions as $commission) {
+            $amount += (float) $commission->commission_amount;
+        }
+
+        $inserted = $wpdb->insert(
+            self::getTableName(),
+            [
+                'partner_id' => $partnerId,
+
+                'amount' => $amount,
+
+                'status' => self::STATUS_PENDING,
+
+                'requested_at' => current_time('mysql'),
+
+                'processed_at' => null,
+
+                'processed_by' => null,
+
+                'note' => $note,
+            ],
+            [
+                '%d',
+                '%f',
+                '%s',
+                '%s',
+                '%s',
+                '%d',
+                '%s',
+            ]
+        );
+
+        if ($inserted === false) {
+            return null;
+        }
+
+        $withdrawalId = (int) $wpdb->insert_id;
+
+        foreach ($commissions as $commission) {
+
+            $wpdb->update(
+                CommissionManager::getTableName(),
+                [
+                    'withdrawal_id' => $withdrawalId,
+                ],
+                [
+                    'id' => $commission->id,
+                ],
+                [
+                    '%d',
+                ],
+                [
+                    '%d',
+                ]
+            );
+        }
+
+        return $withdrawalId;
+    }
+
     public static function getAll(): array
     {
         global $wpdb;
